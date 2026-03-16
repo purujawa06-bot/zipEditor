@@ -102,6 +102,20 @@ async def agent_loop(session_id: str, initial_prompt: str):
                     session["is_looping"] = False
                     break
 
+                elif exec_result["action"] == "todo":
+                    # Trigger ulang Todo Planner untuk re-planning
+                    sys_msg = "SystemLog (Re-Planning): AI meminta pembaruan rencana Todo..."
+                    session["chat_history"].append({"role": "system", "text": sys_msg})
+                    session["ai_memory"].append({"role": "system", "text": sys_msg})
+                    await broadcast_ws(session_id, {"type": "chat_update", "data": session["chat_history"]})
+                    try:
+                        await run_todo_planner(session_id, initial_prompt, vfs_context)
+                    except Exception as e:
+                        todo_err = f"SystemLog (Todo Error): Gagal membuat rencana baru - {str(e)}"
+                        session["chat_history"].append({"role": "system", "text": todo_err})
+                        session["ai_memory"].append({"role": "system", "text": todo_err})
+                        await broadcast_ws(session_id, {"type": "chat_update", "data": session["chat_history"]})
+
                 else:
                     sys_msg = f"SystemLog ({exec_result['action']}): {exec_result['log']}"
                     session["chat_history"].append({"role": "system", "text": sys_msg})

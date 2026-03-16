@@ -29,6 +29,7 @@ Format Perintah yang diizinkan (Pilih salah satu):
 - Memindah/Rename file: <execution>move <path>#root/file.ext</path><to>#root/public/file.ext</to></execution>
 - Menjalankan cURL (GET/POST/Upload dll): <execution>curl <content>curl -X GET https://api.com -F "file=@_context_upload/file.png"</content></execution>
 - Selesai (Jika semua tugas sudah komplit): <execution>stop</execution>
+- Perbarui rencana Todo (Jika butuh re-planning di tengah eksekusi): <execution>todo</execution>
 
 Catatan Penting:
 - File/Media referensi yang diupload oleh user akan berada di folder #root/_context_upload/

@@ -23,6 +23,10 @@ def execute_command(session_id: str, command_str: str) -> Optional[dict]:
         if cmd_body == 'stop':
             return {"action": "stop", "log": "Berhasil dihentikan. Siap untuk diunduh."}
 
+        # ── todo (trigger ulang Todo Planner) ─────────────────────────────
+        if cmd_body == 'todo':
+            return {"action": "todo", "log": "AI meminta pembuatan ulang rencana Todo."}
+
         # ── all ───────────────────────────────────────────────────────────
         if cmd_body.startswith('all'):
             files = get_vfs_list(session_id)
