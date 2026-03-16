@@ -59,15 +59,6 @@ async def agent_loop(session_id: str, initial_prompt: str):
     vfs_list = get_vfs_list(session_id)
     vfs_context = 'Kosong' if not vfs_list else ', '.join(vfs_list)
 
-    # ── Panggil Todo Planner sebelum loop ──────────────────────────────
-    try:
-        await run_todo_planner(session_id, initial_prompt, vfs_context)
-    except Exception as e:
-        todo_err = f"SystemLog (Todo Error): Gagal membuat rencana - {str(e)}"
-        session["chat_history"].append({"role": "system", "text": todo_err})
-        session["ai_memory"].append({"role": "system", "text": todo_err})
-        await broadcast_ws(session_id, {"type": "chat_update", "data": session["chat_history"]})
-
     # ── Loop Eksekusi Utama ────────────────────────────────────────────
     while session["is_looping"]:
         try:
