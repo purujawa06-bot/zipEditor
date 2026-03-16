@@ -3,11 +3,12 @@ import re
 import shutil
 import subprocess
 from pathlib import Path
+from typing import Optional
 from session import get_session_dir
 from vfs import get_vfs_list, is_binary
 
 
-def execute_command(session_id: str, command_str: str) -> dict | None:
+def execute_command(session_id: str, command_str: str) -> Optional[dict]:
     session_dir = get_session_dir(session_id)
     os.makedirs(session_dir, exist_ok=True)
 
